@@ -1,4 +1,5 @@
 ﻿using BusinessCore.Abstract;
+using CoreLayer.Results;
 using Data.Abstract;
 using Data.Models;
 using System;
@@ -16,26 +17,26 @@ namespace BusinessCore.Concrete
         {
             _thesisDal = thesisDal;
         }
-        public IEnumerable<Thesis> GetAll()
+        public IDataResult<IEnumerable<Thesis>> GetAll()
         {
             try
             {
-                return _thesisDal.GetAll();
+                return new SuccessDataResult<IEnumerable<Thesis>>(_thesisDal.GetAll());
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                return new ErrorDataResult<IEnumerable<Thesis>>(ex.Message);
             }
         }
 
-        public Thesis GetById(int id)
+        public IDataResult<Thesis> GetById(int id)
         {
             try
             {
                 var thesis = _thesisDal.Get(T => T.ThesisID == id);
                 if (thesis.GetType().Name.Equals("Data.Models.Thesis") && thesis != null)
                 {
-                    return (Thesis)thesis;
+                    return new SuccessDataResult<Thesis>(thesis , "Tez Bulundu");
 
                 }
                 throw new Exception();

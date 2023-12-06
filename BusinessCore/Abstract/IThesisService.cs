@@ -1,6 +1,7 @@
 ﻿
 namespace BusinessCore.Abstract
 {
+    using CoreLayer.Results;
     using Data.Models;
     #region usings
     using System;
@@ -12,7 +13,7 @@ namespace BusinessCore.Abstract
     #endregion
     public interface IThesisService
     {
-        IEnumerable<Thesis> GetAll();
-        Thesis GetById(int id);
+        IDataResult<IEnumerable<Thesis>> GetAll();
+        IDataResult<Thesis> GetById(int id);
     }
 }
