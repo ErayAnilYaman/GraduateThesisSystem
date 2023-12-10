@@ -15,12 +15,12 @@ namespace Data.Models
     public class CoSupervisorThesis : IEntity
     {
         [Key]
-        public int CoSupervisorThesisID { get; set; }
+        public int COSUPERVISORTHESISID { get; set; }
         [Required]
-        public int ThesisID { get; set; }
+        public int THESISID { get; set; }
         [Required]
-        public int SupervisorID { get; set; }
-        public virtual Thesis  Thesis { get; set; }
-        public virtual Supervisor Supervisor{ get; set; }
+        public int SUPERVISORID { get; set; }
+        public virtual Thesis  THESIS{ get; set; }
+        public virtual Supervisor SUPERVISOR{ get; set; }
     }
 }

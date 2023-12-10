@@ -20,20 +20,20 @@ namespace Data.Models
             _coSupervisorTheses = new HashSet<CoSupervisorThesis>();
         }
         [Key]   
-        public int SupervisorID { get; set; }
+        public int SUPERVISORID { get; set; }
         [Required]
         [StringLength(150)]
-        public string FirstName { get; set; }
+        public string FIRSTNAME { get; set; }
         [Required]
         [StringLength(150)]
-        public string LastName { get; set; }
+        public string LASTNAME{ get; set; }
         [Required]
         [StringLength(250)]
-        public string Email { get; set; }
+        public string EMAIL{ get; set; }
         [Required]
         [StringLength(150)]
-        public string Title { get; set; }
-        public virtual ICollection<CoSupervisorThesis> CoSupervisorTheses { get { return _coSupervisorTheses; } set {value = this._coSupervisorTheses; } }
+        public string TITLE { get; set; }
+        public virtual ICollection<CoSupervisorThesis> COSUPERVISORTHESES { get { return _coSupervisorTheses; } set {value = this._coSupervisorTheses; } }
 
 
     }

@@ -4,6 +4,7 @@ using Data.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ThesesContext))]
-    partial class ThesesContextModelSnapshot : ModelSnapshot
+    [Migration("20231210002136_mig_1")]
+    partial class mig_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,16 +217,11 @@ namespace Data.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("UNIVERSITYID")
-                        .HasColumnType("int");
-
                     b.HasKey("THESISID");
 
                     b.HasIndex("AUTHORID");
 
                     b.HasIndex("INSTITUTEID");
-
-                    b.HasIndex("UNIVERSITYID");
 
                     b.ToTable("THESES");
                 });
@@ -279,18 +277,18 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Models.University", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("UNIVERSITYID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UNIVERSITYID"));
 
                     b.Property<string>("UNIVERSITYNAME")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.HasKey("ID");
+                    b.HasKey("UNIVERSITYID");
 
                     b.ToTable("UNIVERSITIES");
                 });
@@ -336,12 +334,6 @@ namespace Data.Migrations
                     b.HasOne("Data.Models.Institute", "INSTITUTE")
                         .WithMany("THESES")
                         .HasForeignKey("INSTITUTEID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.Models.University", null)
-                        .WithMany("THESES")
-                        .HasForeignKey("UNIVERSITYID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -425,8 +417,6 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Models.University", b =>
                 {
                     b.Navigation("INSTITUTES");
-
-                    b.Navigation("THESES");
                 });
 #pragma warning restore 612, 618
         }

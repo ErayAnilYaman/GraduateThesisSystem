@@ -15,11 +15,11 @@ namespace Data.Models
            _thesisSubjectTopics = new HashSet<ThesisSubjectTopic>();
         }
         [Key]
-        public int TopicID { get; set; }
+        public int TOPICID { get; set; }
         [Required]
         [StringLength(150)]
-        public string TopicName { get; set; }
-        public virtual ICollection<ThesisSubjectTopic> ThesisSubjectTopics { get { return _thesisSubjectTopics; } set { value = this._thesisSubjectTopics; } }
+        public string TOPICNAME{ get; set; }
+        public virtual ICollection<ThesisSubjectTopic> THESISSUBJECTTOPCIS { get { return _thesisSubjectTopics; } set { value = this._thesisSubjectTopics; } }
 
     }
 }

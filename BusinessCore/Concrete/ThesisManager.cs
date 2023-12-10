@@ -1,4 +1,5 @@
 ﻿using BusinessCore.Abstract;
+using CoreLayer.Constants.Messages;
 using CoreLayer.Results;
 using Data.Abstract;
 using Data.Models;
@@ -21,7 +22,7 @@ namespace BusinessCore.Concrete
         {
             try
             {
-                return new SuccessDataResult<IEnumerable<Thesis>>(_thesisDal.GetAll());
+                return new SuccessDataResult<IEnumerable<Thesis>>(_thesisDal.GetAll() , ThesisMessages.ThesesListed);
             }
             catch (Exception ex)
             {
@@ -33,13 +34,13 @@ namespace BusinessCore.Concrete
         {
             try
             {
-                var thesis = _thesisDal.Get(T => T.ThesisID == id);
+                var thesis = _thesisDal.Get(T => T.THESISID == id);
                 if (thesis.GetType().Name.Equals("Data.Models.Thesis") && thesis != null)
                 {
-                    return new SuccessDataResult<Thesis>(thesis , "Tez Bulundu");
+                    return new SuccessDataResult<Thesis>(thesis , ThesisMessages.ThesisFound);
 
                 }
-                throw new Exception();
+                return new ErrorDataResult<Thesis>(ThesisMessages.ThesisFound);
             }
             catch (Exception ex)
             {

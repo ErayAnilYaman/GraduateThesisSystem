@@ -12,7 +12,7 @@ namespace Data.Db
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=GraduateThesesDBOS;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=GTSDB;Trusted_Connection=True;TrustServerCertificate=True;");
         }
         public DbSet<Author> AUTHORS { get; set; }
         public DbSet<CoSupervisorThesis> COSUPERVISORTHESIS { get; set; }

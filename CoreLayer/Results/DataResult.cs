@@ -9,7 +9,6 @@ namespace CoreLayer.Results
     public class DataResult<T> : Result,IDataResult<T>
     {
         
-
         public DataResult(T data , string message, bool isSuccess ) : base(isSuccess  , message)
         {
             Data = data;

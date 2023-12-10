@@ -20,16 +20,16 @@ using Data.Models.Abstract;
             _thesis = new HashSet<Thesis>();
         }
         [Key]
-        public int AuthorID { get; set; }
+        public int AUTHORID { get; set; }
         [Required]
         [StringLength(150)]
-        public string AuthorName { get; set; }
+        public string AUTHORNAME{ get; set; }
         [Required]
         [StringLength(150)]
-        public string LastName { get; set; }
+        public string LASTNAME { get; set; }
         [Required]
         [StringLength(150)]
-        public string Email { get; set; }
-        public virtual ICollection<Thesis> Theses { get { return _thesis; } set { value = this._thesis; } }
+        public string EMAIL { get; set; }
+        public virtual ICollection<Thesis> THESES { get { return _thesis; } set { value = this._thesis; } }
     }
 }

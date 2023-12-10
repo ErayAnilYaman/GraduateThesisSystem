@@ -13,20 +13,17 @@ namespace Data.Models
     #endregion
     public class University : IEntity
     {
-        private ICollection<Institute> _instutes;
         private ICollection<Thesis> _theses;
         public University()
         {
-            _instutes = new HashSet<Institute>();
             _theses = new HashSet<Thesis>();
         }
         [Key]
-        public int UniversityID { get; set; }
+        public int ID { get; set; }
         [Required]
         [StringLength(150)]
-        public string UniversityName { get; set; }
-        public virtual ICollection<Institute> Institutes { get { return _instutes; } set { value = this._instutes; } }
-        public virtual ICollection<Thesis> Theses { get{ return _theses; } set { value = this._theses; } }
+        public string UNIVERSITYNAME{ get; set; }
+        public virtual ICollection<Thesis> THESES { get { return _theses; } set { value = _theses; } }
 
     }
 }

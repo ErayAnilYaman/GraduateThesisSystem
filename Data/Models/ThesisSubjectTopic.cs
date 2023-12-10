@@ -15,12 +15,12 @@ namespace Data.Models
         [Key]
         public int ID { get; set; }
         [Required]
-        public int ThesisID { get; set; }
+        public int THESISID { get; set; }
         [Required]
-        public int TopicID { get; set; }
+        public int TOPICID{ get; set; }
 
-        public virtual Thesis Thesis { get; set; }
-        public virtual SubjectTopic SubjectTopic { get; set; }
+        public virtual Thesis THESIS{ get; set; }
+        public virtual SubjectTopic SUBJECTTOPIC { get; set; }
     }
 
 }

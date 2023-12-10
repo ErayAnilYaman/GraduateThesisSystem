@@ -7,6 +7,7 @@ namespace Data.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Runtime;
     using System.Text;
@@ -25,41 +26,44 @@ namespace Data.Models
             _subjectTopics = new HashSet<ThesisSubjectTopic>();
         }
         [Key]
-        public int ThesisID { get; set; }
+        public int THESISID { get; set; }
         [Required]
-        public int Number { get; set; }
-        [Required]
-        [StringLength(250)]
-        public string Title { get; set; }
+        public int NUMBER { get; set; }
         [Required]
         [StringLength(250)]
-        public string Abstract { get; set; }
+        public string TITLE { get; set; }
         [Required]
-        public int AuthorID { get; set; }
+        [StringLength(250)]
+        public string ABSTRACT{ get; set; }
         [Required]
-        public int ThesisYear { get; set; }
+        public int AUTHORID{ get; set; }
+        [Required]
+        public int THESISYEAR{ get; set; }
         [Required]
         [StringLength(150)]
-        public string Type { get; set; }
+        public string TYPE{ get; set; }
         [Required]
-        public int UniversityID { get; set; }
+        public int INSTITUTEID{ get; set; }
         [Required]
-        public int InstituteID { get; set; }
+        public int SUPERVISORID { get; set; }
         [Required]
-        public int SupervisorID { get; set; }
+        public int UNIVERSITYID { get; set; }
         [Required]
-        public int Pages { get; set; }
+        public int PAGES{ get; set; }
         [Required]
         [StringLength(100)]
-        public string Language { get; set; }
+        public string LANGUAGE{ get; set; }
         [Required]
-        public DateTime SubmissionDate { get; set; }
-        public virtual Author Author { get; set; }
-        public virtual University University { get; set; }
-        public virtual Institute Institute { get; set; }
-        public virtual ICollection<CoSupervisorThesis> CoSupervisorTheses { get { return _coSupervisorTheses; } set { value = _coSupervisorTheses; } }
-        public virtual ICollection<ThesisKeyword> ThesisKeywords { get { return _thesisKeywords; } set { value = _thesisKeywords; } }
-        public virtual ICollection<ThesisSubjectTopic> ThesisSubjectTopics
+        public DateTime SUBMISSIONDATE{ get; set; }
+
+
+        public virtual Author AUTHOR { get; set; }
+        public virtual Institute INSTITUTE{ get; set; }
+        public virtual University UNIVERSITY { get; set; }
+        public virtual Supervisor SUPERVISOR { get; set; }
+        public virtual ICollection<CoSupervisorThesis> COSUPERVISORTHESES{ get { return _coSupervisorTheses; } set { value = _coSupervisorTheses; } }
+        public virtual ICollection<ThesisKeyword> THESISKEYWORDS{ get { return _thesisKeywords; } set { value = _thesisKeywords; } }
+        public virtual ICollection<ThesisSubjectTopic> THESISSUBJECTTOPICS
         {
             get { return _subjectTopics; }
             set

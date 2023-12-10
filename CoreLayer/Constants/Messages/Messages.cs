@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace CoreLayer.Constants.Messages
 {
-    public static class Messages
+    public  class Messages
     {
         
     }
-    public static class ThesisMessages
+    public  class ThesisMessages : Messages
     {
-        public string 
+        public static string ThesesListed = "Tezler Listelendi!!";
+        public static string ThesisNotFound = "Tez Bulunamadi!!";
+        public static string ThesisFound = "Tez Bulundu!!";
     }
 }

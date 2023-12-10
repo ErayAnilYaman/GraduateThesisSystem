@@ -19,11 +19,11 @@ namespace Data.Models
             _thesisKeywords = new HashSet<ThesisKeyword>();
         }
         [Key]
-        public int KeywordID { get; set; }
+        public int KEYWORDID { get; set; }
         [StringLength(255)]
         [Required]
-        public string? KeywordText { get; set;}
-        public virtual ICollection<ThesisKeyword> ThesisKeywords { get; set; }
+        public string KEYWORD{ get; set;}
+        public virtual ICollection<ThesisKeyword> THESISKEYWORDS { get; set; }
 
     }
 }

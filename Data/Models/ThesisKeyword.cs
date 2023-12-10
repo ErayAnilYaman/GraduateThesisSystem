@@ -10,12 +10,12 @@ namespace Data.Models
 {
     public class ThesisKeyword : IEntity
     {
-        public int ThesisKeywordID { get; set; }
+        public int THESISKEYWORDID { get; set; }
         [Required]
-        public int ThesisID { get; set; }
+        public int THESISID{ get; set; }
         [Required]
-        public int KeywordID { get; set; }
-        public virtual Thesis Thesis { get; set; }
-        public virtual Keyword Keyword { get; set; }
+        public int KEYWORDID { get; set; }
+        public virtual Thesis THESIS{ get; set; }
+        public virtual Keyword KEYWORD{ get; set; }
     }
 }
