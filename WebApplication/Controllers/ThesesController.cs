@@ -2,19 +2,16 @@
 namespace WebApplication.Controllers
 {
     #region usings
-
-
     using Microsoft.AspNetCore.Mvc;
-
     using PagedList;
-    using PagedList.Mvc;
     using BusinessCore.Abstract;
     using Data.Db;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Data.Models;
-    using NuGet.Protocol;
     using WebApplication.Models;
     using Data.Models.DTOs;
+    using Data.Models;
+    using System.Linq;
+    using System.Dynamic;
     #endregion
     public class ThesesController : Controller
     {
@@ -25,8 +22,8 @@ namespace WebApplication.Controllers
         {
             _thesisService = thesisService;
         }
-        [HttpGet("Index")]
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(List<Thesis>? theses)
         {
             try
             {
@@ -40,7 +37,7 @@ namespace WebApplication.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
             
         }
@@ -53,47 +50,54 @@ namespace WebApplication.Controllers
                 if (result.IsSuccess)
                 {
                     return View(result.Data);
-
                 }
                 return NotFound();
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet]
         public IActionResult Filter()
         {
-            ThesisModel model = 
-            List<SelectListItem> universities;
-            universities = (from i in db.UNIVERSITIES.ToList() select new SelectListItem
-            {
-                Text = i.ID.ToString(),
-                Value = i.UNIVERSITYNAME.ToString()
-            }).ToList();
-            ViewData["Universities"] = universities;
+            var thesisModel = new ThesisModel();
+            
+            IEnumerable<SelectListItem> universities;
+            IEnumerable<SelectListItem> institutes;
 
-            List<SelectListItem> institutes;
-            institutes = (from i in db.INSTITUTES.ToList()
+            universities = (IEnumerable<SelectListItem>)(from i in db.UNIVERSITIES.ToList()
                             select new SelectListItem
                             {
-                                Text = i.INSTITUTEID.ToString(),
-                                Value = i.INSTITUTENAME.ToString()
-                            }).ToList();
+                                Text = i.UNIVERSITYID.ToString(),
+                                Value = i.NAME.ToString()
+                            });
 
-            ViewData["Universities"] = universities;
-            ViewData["Institutes"] = institutes;
+            institutes = (IEnumerable<SelectListItem>)(from i in db.INSTITUTES.ToList()
+                          select new SelectListItem
+                          {
+                              Text = i.INSTITUTEID.ToString(),
+                              Value = i.NAME.ToString()
+                          });
 
-            return View(model);
+            ViewBag.University= universities;
+            ViewBag.Institutes= institutes;
+            return View(thesisModel);
+
         }
         [HttpPost]
-        public IActionResult Filter(Thesis thesis)
+        [ValidateAntiForgeryToken]
+        public IActionResult Filter(ThesisModel thesisModel)
         {
 
-            ViewData["Title"] = 
-            return RedirectToAction("Index");
+            if (thesisModel.NUMBER != null)
+            {
+                return View("Index", db.THESES.FirstOrDefault(T => T.NUMBER == thesisModel.NUMBER));
+            }
+            var result = _thesisService.GetFilter(thesisModel);
+
+            return View("Index" , result);
         }
+        
     }
 }

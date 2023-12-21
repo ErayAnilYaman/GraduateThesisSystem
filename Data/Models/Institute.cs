@@ -22,7 +22,7 @@ namespace Data.Models
         public int INSTITUTEID { get; set; }
         [Required]
         [StringLength(150)]
-        public string INSTITUTENAME { get; set; }
+        public string NAME { get; set; }
         public virtual ICollection<Thesis> THESES{ get { return _theses; } set { value = this._theses; } }
     }
 }

@@ -1,16 +1,19 @@
-﻿using Data.Abstract.Base;
-using Data.Db;
-using Data.Models.Abstract;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Data.Concrete.Base
 {
+    #region usings
+    using Data.Abstract.Base;
+    using Data.Db;
+    using Data.Models.Abstract;
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    #endregion
     public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepositoryBase<TEntity>
         where TEntity : class, IEntity, new()
         where TContext : DbContext, new()

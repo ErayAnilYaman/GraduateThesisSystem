@@ -1,0 +1,82 @@
+﻿@model Data.Models.DTOs.ThesisModel
+@{
+
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "btn btn-danger" })
+                <div class="form-group">
+                    <label>Author </label>
+                    <input type="text" class="form-control" name="AuthorLastName" />
+                    @Html.ValidationMessageFor(x => x.AUTHORLASTNAME, "", new { @style = "color:red" })
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" class="form-control" name="Address" />
+                    @Html.ValidationMessageFor(x => x.AUTHORNAME, "", new { @style = "color:red" })
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label>Supervisor First Name</label>
+                    <input type="text" class="form-control" name="Email" />
+                    @Html.ValidationMessageFor(x => x.SUPERVISORFIRSTNAME, "", new { @style = "color:red" })
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label>Supervisor Last Name</label>
+                    <input type="tel" class="form-control" name="Phone" />
+                    @Html.ValidationMessageFor(x => x.SUPERVISORLASTNAME, "", new { @style = "color:red" })
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label>Thesis Number</label>
+                    <input type="tel" class="form-control" name="Phone" />
+                    @Html.ValidationMessageFor(x => x.NUMBER, "", new { @style = "color:red" })
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="tel" class="form-control" name="Phone" />
+                    @Html.ValidationMessageFor(x => x.TITLE, "", new { @style = "color:red" })
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label>Language</label>
+                    <input type="tel" class="form-control" name="Phone" />
+                    @Html.ValidationMessageFor(x => x.LANGUAGE, "", new { @style = "color:red" })
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label>Type</label>
+                    <input type="tel" class="form-control" name="Phone" />
+                    @Html.ValidationMessageFor(x => x.TYPE, "", new { @style = "color:red" })
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label>University</label>
+                    @Html.DropDownListFor(x=>x.UNIVERSITYID, (List<SelectListItem>)ViewData["Universities"], new { @class = "form-control" })
+                </div>
+                <br />
+                <div class="form-group">
+                    <label>Category</label>
+                    @Html.DropDownListFor(x => x.IN, (List<SelectListItem>)ViewData["ctgr"], new { @class = "form-control" })
+                </div>
+                <br />
+
+                <button class="btn btn-success" type="submit">Filter</button>
+            </form>
+        </div>
+    </div>
+</div>

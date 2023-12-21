@@ -38,7 +38,7 @@ namespace Data.Models
         [Required]
         public int AUTHORID{ get; set; }
         [Required]
-        public int THESISYEAR{ get; set; }
+        public string THESISYEAR{ get; set; }
         [Required]
         [StringLength(150)]
         public string TYPE{ get; set; }
@@ -55,7 +55,6 @@ namespace Data.Models
         public string LANGUAGE{ get; set; }
         [Required]
         public DateTime SUBMISSIONDATE{ get; set; }
-
 
         public virtual Author AUTHOR { get; set; }
         public virtual Institute INSTITUTE{ get; set; }

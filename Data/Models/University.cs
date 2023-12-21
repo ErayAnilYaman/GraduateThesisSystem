@@ -19,10 +19,10 @@ namespace Data.Models
             _theses = new HashSet<Thesis>();
         }
         [Key]
-        public int ID { get; set; }
+        public int UNIVERSITYID { get; set; }
         [Required]
         [StringLength(150)]
-        public string UNIVERSITYNAME{ get; set; }
+        public string NAME{ get; set; }
         public virtual ICollection<Thesis> THESES { get { return _theses; } set { value = _theses; } }
 
     }
