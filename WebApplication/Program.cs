@@ -10,6 +10,7 @@ var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IThesisDal, EfThesisDal>();
 builder.Services.AddScoped<IThesisService, ThesisManager>();
+builder.Services.AddScoped<IThesisModelDal, EfThesisModelDal>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

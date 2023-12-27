@@ -17,29 +17,31 @@ namespace WebApplication.Controllers
     {
         private readonly IThesisService _thesisService;
 
-        private  ThesesContext db = new ThesesContext();
+        private ThesesContext db = new ThesesContext();
+
         public ThesesController(IThesisService thesisService)
         {
             _thesisService = thesisService;
         }
         [HttpGet]
-        public IActionResult Index(List<Thesis>? theses)
+        public IActionResult Index()
         {
             try
             {
+
                 var result = _thesisService.GetAll();
                 if (result.IsSuccess)
                 {
-                    return View(result.Data.ToPagedList(pageNumber :1 , pageSize :10));
+                    return View(result.Data.ToPagedList(pageNumber: 1, pageSize: 10));
                 }
+
                 return NotFound();
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
-            
+
         }
         [HttpGet]
         public IActionResult Detail(int thesisID)
@@ -62,26 +64,24 @@ namespace WebApplication.Controllers
         public IActionResult Filter()
         {
             var thesisModel = new ThesisModel();
-            
-            IEnumerable<SelectListItem> universities;
-            IEnumerable<SelectListItem> institutes;
 
-            universities = (IEnumerable<SelectListItem>)(from i in db.UNIVERSITIES.ToList()
-                            select new SelectListItem
-                            {
-                                Text = i.UNIVERSITYID.ToString(),
-                                Value = i.NAME.ToString()
-                            });
+            List<SelectListItem> universities;
+            List<SelectListItem> institutes;
+            universities = db.UNIVERSITIES.ToList().Select(i => new SelectListItem
+            {
+                Text = i.NAME.ToString(),
+                Value = i.UNIVERSITYID.ToString()
 
-            institutes = (IEnumerable<SelectListItem>)(from i in db.INSTITUTES.ToList()
-                          select new SelectListItem
-                          {
-                              Text = i.INSTITUTEID.ToString(),
-                              Value = i.NAME.ToString()
-                          });
+            }).ToList();
 
-            ViewBag.University= universities;
-            ViewBag.Institutes= institutes;
+            institutes = db.INSTITUTES.ToList().Select(i => new SelectListItem
+            {
+                Text = i.NAME.ToString(),
+                Value = i.INSTITUTEID.ToString()
+            }).ToList();
+
+            ViewBag.Universities = universities;
+            ViewBag.Institutes = institutes;
             return View(thesisModel);
 
         }
@@ -90,14 +90,10 @@ namespace WebApplication.Controllers
         public IActionResult Filter(ThesisModel thesisModel)
         {
 
-            if (thesisModel.NUMBER != null)
-            {
-                return View("Index", db.THESES.FirstOrDefault(T => T.NUMBER == thesisModel.NUMBER));
-            }
-            var result = _thesisService.GetFilter(thesisModel);
 
-            return View("Index" , result);
+            var result = _thesisService.GetFilter(thesisModel).Data.ToList().ToPagedList(pageNumber: 1, pageSize: 10);
+
+            return RedirectToAction("Index", result);
         }
-        
     }
 }

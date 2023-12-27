@@ -9,6 +9,6 @@ namespace Data.Abstract
 
     public interface IThesisModelDal : IEntityRepositoryBase<ThesisModel>
     {
-        IEnumerable<ThesisModel> GetThesisModel();
+        List<ThesisModel> GetThesisModel();
     }
 }

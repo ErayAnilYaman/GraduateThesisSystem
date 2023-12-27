@@ -15,7 +15,6 @@ namespace Data.Models.DTOs
         public string? SUPERVISORLASTNAME { get; set; }
         public string? TYPE { get; set; }
         public string? LANGUAGE { get; set; }
-        public int? NUMBER { get; set; }
         public string? THESISYEAR { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace Data.Concrete
 
     public class EfThesisModelDal : EfEntityRepositoryBase<ThesisModel, ThesesContext>, IThesisModelDal
     {
-        public IEnumerable<ThesisModel> GetThesisModel()
+        public List<ThesisModel> GetThesisModel()
         {
             using (var db = new ThesesContext())
             {
@@ -29,7 +29,6 @@ namespace Data.Concrete
                               select new ThesisModel
                               {
                                   INSTITUTEID = i.INSTITUTEID,
-                                  NUMBER = t.NUMBER,
                                   SUPERVISORFIRSTNAME = s.FIRSTNAME,
                                   SUPERVISORLASTNAME = s.LASTNAME,
                                   THESISYEAR = t.THESISYEAR,
@@ -39,11 +38,11 @@ namespace Data.Concrete
                                   AUTHORNAME = a.AUTHORNAME
 
                               });
-                return result;
+                return result.ToList();
             }
 
         }
-        public IEnumerable<ThesisModel> GetFilter(ThesisModel model)
+        public List<ThesisModel> GetFilter(ThesisModel model)
         {
             using (ThesesContext db = new ThesesContext())
             {
@@ -66,6 +65,11 @@ namespace Data.Concrete
 
 
 
+        }
+
+        List<ThesisModel> IThesisModelDal.GetThesisModel()
+        {
+            throw new NotImplementedException();
         }
     }
 }

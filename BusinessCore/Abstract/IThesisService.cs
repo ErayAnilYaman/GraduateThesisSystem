@@ -14,8 +14,8 @@ namespace BusinessCore.Abstract
     #endregion
     public interface IThesisService
     {
-        IDataResult<IEnumerable<Thesis>> GetAll();
-        IDataResult<Thesis> GetById(int id);
-        IDataResult<IEnumerable<ThesisModel>> GetFilter(ThesisModel model);
+        IDataResult<List<Thesis>> GetAll();
+        IDataResult<Thesis> GetByNumber(int number);
+        IDataResult<List<Thesis>> GetFilter(ThesisModel model);
     }
 }

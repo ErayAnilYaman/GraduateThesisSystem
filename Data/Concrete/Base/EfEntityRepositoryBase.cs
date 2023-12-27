@@ -27,11 +27,11 @@ namespace Data.Concrete.Base
             }
         }
 
-        public  IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
+        public  List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
             using (var db = new ThesesContext())
             {
-                return (filter == null) ? db.Set<TEntity>().ToList(): db.Set<TEntity>().Where(filter);
+                return (filter == null) ? db.Set<TEntity>().ToList(): db.Set<TEntity>().Where(filter).ToList();
             }
         }
     }
