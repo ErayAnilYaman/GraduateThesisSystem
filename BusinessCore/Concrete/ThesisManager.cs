@@ -1,5 +1,4 @@
-﻿
-namespace BusinessCore.Concrete
+﻿namespace BusinessCore.Concrete
 {
     #region usings
     using BusinessCore.Abstract;
@@ -31,7 +30,7 @@ namespace BusinessCore.Concrete
             {
                 if (_thesisDal.GetAll() == null)
                 {
-                    return new SuccessDataResult<List<Thesis>>(_thesisDal.GetAll());
+                    return new SuccessDataResult<List<Thesis>>(_thesisDal.GetAll() , ThesisMessages.ThesisNotFound);
                 }
                 return new SuccessDataResult<List<Thesis>>(_thesisDal.GetAll() , ThesisMessages.ThesesListed);
             }
@@ -56,7 +55,6 @@ namespace BusinessCore.Concrete
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-                
             }
         }
 
@@ -64,32 +62,33 @@ namespace BusinessCore.Concrete
         {
             try
             {
-                //var result = model.GetType()
-                //    .GetProperties()
-                //    .Where(p => p.GetValue(model) != null).ToList();
 
-                //Dictionary<string , object> nonNullPropertiesWithValues = GetProperties.GetNonNullProperties(model);
-                //using (var db = new ThesesContext())
-                //{
-                //    IQueryable<Thesis> query = db.Set<Thesis>().AsQueryable();
-                //    List<Thesis> result1;
-
-                //    foreach (var item in nonNullPropertiesWithValues)
-                //    {
-                //        var key = item.Key;
-                //        var value = item.Value;
-
-                //        //if (typeof(Thesis).GetProperty(key) != null)
-                //        //{
-                //        //    query = query.Where(t => EF.Property<object>(t, key) == value);
-                //        //}
-                //        //result1 = db.Set<Thesis>().AsQueryable().Where(T => EF.Property<object>(T, key) == value).ToList();
-                //    } 
-                //    //var result = result1.ToList();
-                //     //result = query.ToList();
-                //    return new SuccessDataResult<List<Thesis>>(result1);
-
-                //}
+                using (var db = new ThesesContext())
+                {
+                    Dictionary<string, object> nonNullPropertiesWithValues = GetProperties.GetNonNullProperties(model);
+                    List<Thesis> query = db.Set<Thesis>().ToList();
+                    
+                    for (int i = 0; i < nonNullPropertiesWithValues.Count; i++)
+                    {
+                        var key = model.GetType().GetProperties()[i].Name;
+                        var value = nonNullPropertiesWithValues.ElementAt(i);
+                        if (typeof(Thesis).GetProperty(key) != null)
+                        {
+                            if (!(key.Contains("ID")))
+                            {
+                                query = query.Where(t => EF.Property<string>(t, key).Contains(value.ToString()!)).ToList();
+                            }
+                            else
+                            {
+                                query = query.Where(t => EF.Property<int>(t, key) == Convert.ToInt16(value)).ToList();
+                            }
+                        }
+                        continue;
+                    }
+                    //var result = result1.ToList();
+                    //result = query.ToList();
+                    return null!;
+                }
                 return null;
 
             }

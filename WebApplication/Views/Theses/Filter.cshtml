@@ -11,43 +11,36 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "btn btn-danger" })
                 <div class="form-group">
-                    <label>Author Name</label>
-                    <input type="text" class="form-control" name="AuthorLastName" />
-                    @Html.ValidationMessageFor(x => x.AUTHORLASTNAME, "", new { @style = "color:red" })
-                </div>
-                <br />
-
-                <div class="form-group">
-                    <label>Address</label>
-                    <input type="text" class="form-control" name="Address" />
+                    @Html.LabelFor(x=>x.AUTHORNAME)
+                    <input type="text" class="form-control" name="AUTHORNAME" />s
                     @Html.ValidationMessageFor(x => x.AUTHORNAME, "", new { @style = "color:red" })
                 </div>
                 <br />
 
+
                 <div class="form-group">
-                    <label>Supervisor First Name</label>
-                    <input type="text" class="form-control" name="Email" />
-                    @Html.ValidationMessageFor(x => x.SUPERVISORFIRSTNAME, "", new { @style = "color:red" })
+                    @Html.LabelFor(x => x.SUPERVISORNAME)
+                    <input type="text" class="form-control" name="SUPERVISORNAME" />
+                    @Html.ValidationMessageFor(x => x.SUPERVISORNAME, "", new { @style = "color:red" })
                 </div>
                 <br />
 
                 <div class="form-group">
-                    <label>Supervisor Last Name</label>
-                    <input type="text" class="form-control" name="Phone" />
-                    @Html.ValidationMessageFor(x => x.SUPERVISORLASTNAME, "", new { @style = "color:red" })
-                </div>
-                <br />
-
-
-                <div class="form-group">
-                    <label>Title</label>
-                    <input type="text" class="form-control" name="Phone" />
+                    @Html.LabelFor(x=>x.TITLE)
+                    <input type="text" class="form-control" name="TITLE" />
                     @Html.ValidationMessageFor(x => x.TITLE, "", new { @style = "color:red" })
                 </div>
                 <br />
 
                 <div class="form-group">
-                    <label>Language</label> 
+                    @Html.LabelFor(x=>x.THESISYEAR)
+                    <input type="number" class="form-control" name="THESISYEAR" />
+                    @Html.ValidationMessageFor(x => x.THESISYEAR, "", new { @style = "color:red" })
+                </div>
+                <br />
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.LANGUAGE)
                     @Html.DropDownListFor(x => x.LANGUAGE,
                              Enum.GetValues(typeof(Languages)).Cast<Languages>().Select(
                              value => new SelectListItem
@@ -56,11 +49,11 @@
                         Value = ((int)value).ToString(),
                         Selected = value.ToString() == Model.LANGUAGE
                     }), "Select Language", new { @class = "form-control" })
-
                 </div>
                 <br />
+
                 <div class="form-group">
-                    <label>Types</label>
+                    @Html.LabelFor(x => x.TYPE)
                     @Html.DropDownListFor(x => x.TYPE,
                              Enum.GetValues(typeof(Types)).Cast<Types>().Select(
                              value => new SelectListItem
@@ -69,7 +62,6 @@
                         Value = ((int)value).ToString(),
                         Selected = value.ToString() == Model.TYPE
                     }), "Select Type", new { @class = "form-control" })
-
                 </div>
                 <br />
 
@@ -78,8 +70,9 @@
                     @Html.DropDownListFor(x => x.UNIVERSITYID, (List<SelectListItem>)ViewBag.Universities, "Select University", new { @class = "form-control" })
                 </div>
                 <br />
+
                 <div class="form-group">
-                    <label>Category</label>
+                    <label>Institute</label>
                     @Html.DropDownListFor(x => x.INSTITUTEID, (List<SelectListItem>)ViewBag.Institutes, "Select Institute", new { @class = "form-control" })
                 </div>
                 <br />

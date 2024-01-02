@@ -28,7 +28,6 @@ namespace WebApplication.Controllers
         {
             try
             {
-
                 var result = _thesisService.GetAll();
                 if (result.IsSuccess)
                 {
@@ -44,11 +43,11 @@ namespace WebApplication.Controllers
 
         }
         [HttpGet]
-        public IActionResult Detail(int thesisID)
+        public IActionResult Detail(int thesisNumber)
         {
             try
             {
-                var result = _thesisService.GetById(thesisID);
+                var result = _thesisService.GetByNumber(thesisNumber);
                 if (result.IsSuccess)
                 {
                     return View(result.Data);
@@ -91,9 +90,9 @@ namespace WebApplication.Controllers
         {
 
 
-            var result = _thesisService.GetFilter(thesisModel).Data.ToList().ToPagedList(pageNumber: 1, pageSize: 10);
+            var result = _thesisService.GetFilter(thesisModel);
 
-            return RedirectToAction("Index", result);
+            return View(result);
         }
     }
 }
