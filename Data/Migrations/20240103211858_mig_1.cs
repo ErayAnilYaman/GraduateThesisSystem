@@ -11,7 +11,6 @@ namespace Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            
             migrationBuilder.CreateTable(
                 name: "AUTHORS",
                 columns: table => new
@@ -25,6 +24,19 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AUTHORS", x => x.AUTHORID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "INSTITUTES",
+                columns: table => new
+                {
+                    INSTITUTEID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NAME = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_INSTITUTES", x => x.INSTITUTEID);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,32 +87,11 @@ namespace Data.Migrations
                 {
                     UNIVERSITYID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UNIVERSITYNAME = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
+                    NAME = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UNIVERSITIES", x => x.UNIVERSITYID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "INSTITUTES",
-                columns: table => new
-                {
-                    INSTITUTEID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    INSTITUTENAME = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    UNIVERSITYID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_INSTITUTES", x => x.INSTITUTEID);
-                    table.ForeignKey(
-                        name: "FK_INSTITUTES_UNIVERSITIES_UNIVERSITYID",
-                        column: x => x.UNIVERSITYID,
-                        principalTable: "UNIVERSITIES",
-                        principalColumn: "UNIVERSITYID",
-                        onDelete: ReferentialAction.Cascade);
-                    
                 });
 
             migrationBuilder.CreateTable(
@@ -117,6 +108,7 @@ namespace Data.Migrations
                     TYPE = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     INSTITUTEID = table.Column<int>(type: "int", nullable: false),
                     SUPERVISORID = table.Column<int>(type: "int", nullable: false),
+                    UNIVERSITYID = table.Column<int>(type: "int", nullable: false),
                     PAGES = table.Column<int>(type: "int", nullable: false),
                     LANGUAGE = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     SUBMISSIONDATE = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -136,7 +128,18 @@ namespace Data.Migrations
                         principalTable: "INSTITUTES",
                         principalColumn: "INSTITUTEID",
                         onDelete: ReferentialAction.Cascade);
-                    
+                    table.ForeignKey(
+                        name: "FK_THESES_SUPERVISORS_SUPERVISORID",
+                        column: x => x.SUPERVISORID,
+                        principalTable: "SUPERVISORS",
+                        principalColumn: "SUPERVISORID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_THESES_UNIVERSITIES_UNIVERSITYID",
+                        column: x => x.UNIVERSITYID,
+                        principalTable: "UNIVERSITIES",
+                        principalColumn: "UNIVERSITYID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,11 +232,6 @@ namespace Data.Migrations
                 column: "THESISID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_INSTITUTES_UNIVERSITYID",
-                table: "INSTITUTES",
-                column: "UNIVERSITYID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_THESES_AUTHORID",
                 table: "THESES",
                 column: "AUTHORID");
@@ -242,6 +240,16 @@ namespace Data.Migrations
                 name: "IX_THESES_INSTITUTEID",
                 table: "THESES",
                 column: "INSTITUTEID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_THESES_SUPERVISORID",
+                table: "THESES",
+                column: "SUPERVISORID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_THESES_UNIVERSITYID",
+                table: "THESES",
+                column: "UNIVERSITYID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_THESISKEYWORD_KEYWORDID",
@@ -277,9 +285,6 @@ namespace Data.Migrations
                 name: "THESISSUBJECTTOPIC");
 
             migrationBuilder.DropTable(
-                name: "SUPERVISORS");
-
-            migrationBuilder.DropTable(
                 name: "KEYWORDS");
 
             migrationBuilder.DropTable(
@@ -293,6 +298,9 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "INSTITUTES");
+
+            migrationBuilder.DropTable(
+                name: "SUPERVISORS");
 
             migrationBuilder.DropTable(
                 name: "UNIVERSITIES");

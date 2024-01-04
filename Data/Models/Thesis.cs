@@ -38,7 +38,7 @@ namespace Data.Models
         [Required]
         public int AUTHORID{ get; set; }
         [Required]
-        public string THESISYEAR{ get; set; }
+        public int THESISYEAR{ get; set; }
         [Required]
         [StringLength(150)]
         public string TYPE{ get; set; }

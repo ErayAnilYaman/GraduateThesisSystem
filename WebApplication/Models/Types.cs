@@ -2,7 +2,8 @@
 {
     public enum Types
     {
-       Master , Doctorate
+       Master =0 ,
+       Doctorate=1
     }
 
 }

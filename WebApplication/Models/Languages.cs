@@ -2,10 +2,8 @@
 {
     public enum Languages
     {
-        English,
-        Spanish,
-        French,
-        German,
-        Turkish
+        English=0,
+        French=1,
+        Turkish=2
     }
 }

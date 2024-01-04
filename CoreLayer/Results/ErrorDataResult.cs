@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace CoreLayer.Results
 {
+    #region usings
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    #endregion
     public class ErrorDataResult<T> : DataResult<T>
     {
         public ErrorDataResult(T data , string message) : base(data , message , false)

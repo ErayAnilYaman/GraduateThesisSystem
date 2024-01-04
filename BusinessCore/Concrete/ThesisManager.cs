@@ -65,31 +65,34 @@
 
                 using (var db = new ThesesContext())
                 {
-                    Dictionary<string, object> nonNullPropertiesWithValues = GetProperties.GetNonNullProperties(model);
-                    List<Thesis> query = db.Set<Thesis>().ToList();
-                    
+                    Dictionary<string, object> nonNullPropertiesWithValues = GetProperties.GetNonNullProperties(model!);
+                    List<Thesis> query = db.THESES.ToList();
                     for (int i = 0; i < nonNullPropertiesWithValues.Count; i++)
                     {
-                        var key = model.GetType().GetProperties()[i].Name;
-                        var value = nonNullPropertiesWithValues.ElementAt(i);
+                        var key = nonNullPropertiesWithValues.ElementAt(i).Key;
+                        object value = nonNullPropertiesWithValues.ElementAt(i).Value;
                         if (typeof(Thesis).GetProperty(key) != null)
                         {
-                            if (!(key.Contains("ID")))
+                            var propertyInfo = typeof(Thesis).GetProperty(key);
+                            var propertyType = propertyInfo.PropertyType;
+
+                            if (!(key.Contains("ID") || key.Contains("YEAR")))
                             {
-                                query = query.Where(t => EF.Property<string>(t, key).Contains(value.ToString()!)).ToList();
+                                string stringValue = value.ToString();
+                                query = query.Where(t => propertyInfo.GetValue(t).ToString().Contains(stringValue)).ToList();
                             }
                             else
                             {
-                                query = query.Where(t => EF.Property<int>(t, key) == Convert.ToInt16(value)).ToList();
+                                int intValue = Convert.ToInt32(value);
+                                query = query.Where(t => (int)propertyInfo.GetValue(t) == intValue).ToList();
                             }
                         }
-                        continue;
+                        
                     }
                     //var result = result1.ToList();
                     //result = query.ToList();
-                    return null!;
+                    return new SuccessDataResult<List<Thesis>>(query);
                 }
-                return null;
 
             }
             catch (Exception ex)

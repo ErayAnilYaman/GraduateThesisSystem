@@ -11,6 +11,6 @@ namespace Data.Models.DTOs
         public string? SUPERVISORNAME { get; set; }
         public string? TYPE { get; set; }
         public string? LANGUAGE { get; set; }
-        public string? THESISYEAR { get; set; }
+        public int? THESISYEAR { get; set; }
     }
 }

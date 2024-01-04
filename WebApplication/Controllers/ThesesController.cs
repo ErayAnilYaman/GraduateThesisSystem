@@ -33,7 +33,6 @@ namespace WebApplication.Controllers
                 {
                     return View(result.Data.ToPagedList(pageNumber: 1, pageSize: 10));
                 }
-
                 return NotFound();
             }
             catch (Exception ex)
@@ -91,8 +90,12 @@ namespace WebApplication.Controllers
 
 
             var result = _thesisService.GetFilter(thesisModel);
+            if (result.IsSuccess)
+            {
+                return View(result.Data);
 
-            return View(result);
+            }
+            return View();
         }
     }
 }

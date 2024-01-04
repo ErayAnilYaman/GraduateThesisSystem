@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ThesesContext))]
-    [Migration("20231210002136_mig_1")]
+    [Migration("20240103211858_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
@@ -84,17 +84,12 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("INSTITUTEID"));
 
-                    b.Property<string>("INSTITUTENAME")
+                    b.Property<string>("NAME")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("UNIVERSITYID")
-                        .HasColumnType("int");
-
                     b.HasKey("INSTITUTEID");
-
-                    b.HasIndex("UNIVERSITYID");
 
                     b.ToTable("INSTITUTES");
                 });
@@ -217,11 +212,18 @@ namespace Data.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<int>("UNIVERSITYID")
+                        .HasColumnType("int");
+
                     b.HasKey("THESISID");
 
                     b.HasIndex("AUTHORID");
 
                     b.HasIndex("INSTITUTEID");
+
+                    b.HasIndex("SUPERVISORID");
+
+                    b.HasIndex("UNIVERSITYID");
 
                     b.ToTable("THESES");
                 });
@@ -283,7 +285,7 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UNIVERSITYID"));
 
-                    b.Property<string>("UNIVERSITYNAME")
+                    b.Property<string>("NAME")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
@@ -312,17 +314,6 @@ namespace Data.Migrations
                     b.Navigation("THESIS");
                 });
 
-            modelBuilder.Entity("Data.Models.Institute", b =>
-                {
-                    b.HasOne("Data.Models.University", "UNIVERSITY")
-                        .WithMany("INSTITUTES")
-                        .HasForeignKey("UNIVERSITYID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UNIVERSITY");
-                });
-
             modelBuilder.Entity("Data.Models.Thesis", b =>
                 {
                     b.HasOne("Data.Models.Author", "AUTHOR")
@@ -337,9 +328,25 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Data.Models.Supervisor", "SUPERVISOR")
+                        .WithMany()
+                        .HasForeignKey("SUPERVISORID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Models.University", "UNIVERSITY")
+                        .WithMany("THESES")
+                        .HasForeignKey("UNIVERSITYID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("AUTHOR");
 
                     b.Navigation("INSTITUTE");
+
+                    b.Navigation("SUPERVISOR");
+
+                    b.Navigation("UNIVERSITY");
                 });
 
             modelBuilder.Entity("Data.Models.ThesisKeyword", b =>
@@ -416,7 +423,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Models.University", b =>
                 {
-                    b.Navigation("INSTITUTES");
+                    b.Navigation("THESES");
                 });
 #pragma warning restore 612, 618
         }
