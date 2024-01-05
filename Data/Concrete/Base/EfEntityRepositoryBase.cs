@@ -18,6 +18,26 @@ namespace Data.Concrete.Base
         where TEntity : class, IEntity, new()
         where TContext : DbContext, new()
     {
+        public void Add(TEntity entity)
+        {
+            using (var db = new ThesesContext())
+            {
+                var addedEntity = db.Entry(entity);
+                addedEntity.State = EntityState.Added;
+                db.SaveChanges();
+            }
+        }
+
+        public void Delete(TEntity entity)
+        {
+            using (var db = new ThesesContext())
+            {
+                var deletedEntity = db.Entry(entity);
+                deletedEntity.State = EntityState.Deleted;
+                db.SaveChanges();
+            }
+        }
+
         public TEntity? Get(Expression<Func<TEntity, bool>> filter)
         {
             using (var db = new ThesesContext())
@@ -32,6 +52,16 @@ namespace Data.Concrete.Base
             using (var db = new ThesesContext())
             {
                 return (filter == null) ? db.Set<TEntity>().ToList(): db.Set<TEntity>().Where(filter).ToList();
+            }
+        }
+
+        public void Update(TEntity entity)
+        {
+            using (var db = new ThesesContext())
+            {
+                var updatedEntity = db.Entry(entity);
+                updatedEntity.State = EntityState.Modified;
+                db.SaveChanges();
             }
         }
     }

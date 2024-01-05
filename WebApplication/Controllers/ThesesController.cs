@@ -16,12 +16,17 @@ namespace WebApplication.Controllers
     public class ThesesController : Controller
     {
         private readonly IThesisService _thesisService;
+        private readonly IInstituteService _instituteService;
+        private readonly IUniversityService _universityService;
+
 
         private ThesesContext db = new ThesesContext();
 
-        public ThesesController(IThesisService thesisService)
+        public ThesesController(IThesisService thesisService , IInstituteService instituteService , IUniversityService universityService)
         {
             _thesisService = thesisService;
+            _instituteService = instituteService;
+            _universityService = universityService;
         }
         [HttpGet]
         public IActionResult Index()
@@ -65,14 +70,14 @@ namespace WebApplication.Controllers
 
             List<SelectListItem> universities;
             List<SelectListItem> institutes;
-            universities = db.UNIVERSITIES.ToList().Select(i => new SelectListItem
+            universities = _universityService.List().Data.Select(i => new SelectListItem
             {
                 Text = i.NAME.ToString(),
                 Value = i.UNIVERSITYID.ToString()
 
             }).ToList();
 
-            institutes = db.INSTITUTES.ToList().Select(i => new SelectListItem
+            institutes = _instituteService.List().Data.Select(i => new SelectListItem
             {
                 Text = i.NAME.ToString(),
                 Value = i.INSTITUTEID.ToString()

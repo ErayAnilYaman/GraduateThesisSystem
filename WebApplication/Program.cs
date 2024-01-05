@@ -7,10 +7,19 @@ using Data.Concrete;
 var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddControllersWithViews();
+// Theses
 builder.Services.AddScoped<IThesisDal, EfThesisDal>();
 builder.Services.AddScoped<IThesisService, ThesisManager>();
-builder.Services.AddScoped<IThesisModelDal, EfThesisModelDal>();
+// University
+builder.Services.AddScoped<IUniversityDal, EfUniversityDal>();
+builder.Services.AddScoped<IUniversityService, UniversityManager>();
+
+// Institutes
+builder.Services.AddScoped<IInstituteDal, EfInstituteDal>();
+builder.Services.AddScoped<IInstituteService, InstituteManager>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

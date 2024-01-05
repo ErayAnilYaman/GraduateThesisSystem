@@ -66,7 +66,7 @@
                 using (var db = new ThesesContext())
                 {
                     Dictionary<string, object> nonNullPropertiesWithValues = GetProperties.GetNonNullProperties(model!);
-                    List<Thesis> query = db.THESES.ToList();
+                    List<Thesis> query = _thesisDal.GetAll();
                     for (int i = 0; i < nonNullPropertiesWithValues.Count; i++)
                     {
                         var key = nonNullPropertiesWithValues.ElementAt(i).Key;

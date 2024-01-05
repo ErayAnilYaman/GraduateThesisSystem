@@ -8,7 +8,13 @@ namespace CoreLayer.Constants.Messages
 {
     public  class Messages
     {
-        
+        public static string Listed = "Listelendi!!";
+
+
+
+
+
+        public static string ErrorEncountered = "HATAYLA KARSILASILDI!!";
     }
     public  class ThesisMessages : Messages
     {
