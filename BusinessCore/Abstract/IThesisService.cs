@@ -20,6 +20,6 @@ namespace BusinessCore.Abstract
         IResult Add(Thesis thesis);
         IResult Update(Thesis thesis);
         IResult Delete(int id);
-
+        
     }
 }

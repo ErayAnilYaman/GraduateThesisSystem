@@ -19,6 +19,10 @@ builder.Services.AddScoped<IUniversityService, UniversityManager>();
 // Institutes
 builder.Services.AddScoped<IInstituteDal, EfInstituteDal>();
 builder.Services.AddScoped<IInstituteService, InstituteManager>();
+// Institutes
+builder.Services.AddScoped<ISupervisorDal, EfSupervisorDal>();
+// Institutes
+builder.Services.AddScoped<IAuthorDal, EfAuthorDal>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

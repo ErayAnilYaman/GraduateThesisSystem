@@ -17,15 +17,12 @@
                     @Html.ValidationMessageFor(x => x.AUTHORNAME, "", new { @style = "color:red" })
                 </div>
                 <br />
-                
-
                 <div class="form-group">
                     @Html.LabelFor(x => x.SUPERVISORNAME)
                     <input type="text" class="form-control" name="SUPERVISORNAME" />
                     @Html.ValidationMessageFor(x => x.SUPERVISORNAME, "", new { @style = "color:red" })
                 </div>
                 <br />
-
                 <div class="form-group">
                     @Html.LabelFor(x=>x.TITLE)
                     <input type="text" class="form-control" name="TITLE" />
@@ -49,7 +46,6 @@
                              Text = value.ToString(),
                              Selected = value.ToString() == Model.LANGUAGE
                          }), "Select Language", new { @class = "form-control" })
-                    
                 </div>
                 <br />
 

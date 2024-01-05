@@ -92,15 +92,51 @@ namespace WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Filter(ThesisModel thesisModel)
         {
-
-
             var result = _thesisService.GetFilter(thesisModel);
             if (result.IsSuccess)
             {
-                return View(result.Data);
+                return View("FilteredResult",result.Data);
 
             }
             return View();
+        }
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        public IActionResult FilteredResult(List<Thesis> theses)
+        {
+            try
+            {
+                if (theses != null)
+                {
+                    return View(theses);
+                }
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult GetData(int number)
+        {
+            try
+            {
+                var result = _thesisService.GetByNumber(number);
+                if (result.Data != null)
+                {
+                    return Json(new { success = true , message = result.Message });
+                }
+                return Json(new { success = false, message = result.Message });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false, message = ex.Message });
+            }
         }
     }
 }

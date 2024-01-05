@@ -38,12 +38,12 @@ namespace Data.Concrete.Base
             }
         }
 
-        public TEntity? Get(Expression<Func<TEntity, bool>> filter)
+        public TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
             using (var db = new ThesesContext())
             {
-                var result = db.Set<TEntity>().SingleOrDefault(filter);
-                return (result == null) ? null : result;
+                var result = (filter != null) ? db.Set<TEntity>().SingleOrDefault(filter): null;
+                return result;
             }
         }
 
