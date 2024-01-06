@@ -11,6 +11,7 @@
     using Data.Models.Abstract;
     using Data.Models.DTOs;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Internal;
     using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 
@@ -23,15 +24,10 @@
         private readonly IInstituteDal _instituteDal;
         private readonly IUniversityDal _universityDal;
 
-        public ThesisManager(IThesisDal thesisDal, IAuthorDal authorDal 
-            , ISupervisorDal supervisorDal , IInstituteDal instituteDal
-            , IUniversityDal universityDal)
+        public ThesisManager(IThesisDal thesisDal)
         {
             _thesisDal = thesisDal;
-            _authorDal = authorDal;
-            _instituteDal = instituteDal;
-            _supervisorDal = supervisorDal;
-            _universityDal = universityDal;
+            
         }
         public IResult Add(Thesis thesis)
         {
@@ -49,9 +45,9 @@
             {
                 if (_thesisDal.GetAll() == null)
                 {
-                    return new SuccessDataResult<List<Thesis>>(_thesisDal.GetAll(), ThesisMessages.ThesisNotFound);
+                    return new SuccessDataResult<List<Thesis>>(_thesisDal.GetAllOfModel(), ThesisMessages.ThesisNotFound);
                 }
-                return new SuccessDataResult<List<Thesis>>(_thesisDal.GetAll(), ThesisMessages.ThesesListed);
+                return new SuccessDataResult<List<Thesis>>(_thesisDal.GetAllOfModel(), ThesisMessages.ThesesListed);
             }
             catch (Exception ex)
             {
@@ -63,7 +59,7 @@
         {
             try
             {
-                var thesis = _thesisDal.Get(T => T.NUMBER == number);
+                var thesis = _thesisDal.GetAllOfModelByNumber(number)[0];
                 if (thesis != null)
                 {
                     return new SuccessDataResult<Thesis>(thesis, ThesisMessages.ThesisFound);
@@ -81,44 +77,9 @@
         {
             try
             {
-                Dictionary<string, object> nonNullPropertiesWithValues = GetProperties.GetNonNullProperties(model!);
-                List<Thesis> query = _thesisDal.GetAll();
-                for (int i = 0; i < nonNullPropertiesWithValues.Count; i++)
-                {
-                    var key = nonNullPropertiesWithValues.ElementAt(i).Key;
-                    object value = nonNullPropertiesWithValues.ElementAt(i).Value;
-                    if (typeof(Thesis).GetProperty(key) != null)
-                    {
-                        var propertyInfo = typeof(Thesis).GetProperty(key);
 
-                        if (!(key.Contains("ID") || key.Contains("YEAR")))
-                        {
-                            string stringValue = value.ToString();
-                            query = query.Where(t => propertyInfo.GetValue(t).ToString().Contains(stringValue)).ToList();
-                        }
-                        else
-                        {
-                            int intValue = Convert.ToInt32(value);
-                            query = query.Where(t => (int)propertyInfo.GetValue(t) == intValue).ToList();
-                        }
-                    }
-                    else
-                    {
-                        //var propertyKey = key.Replace("NAME", ".") + key;
-                        //var propertyInfo = typeof(IEntity).GetProperty(propertyKey);
-                        //query = query.Where(t => propertyInfo.GetValue(t).ToString().Contains(value.ToString())).ToList();
-
-                    }
-                }
-                foreach (var q in query)
-                {
-                    q.AUTHOR = _authorDal.Get(a => a.AUTHORID == q.AUTHORID);
-                    q.INSTITUTE = _instituteDal.Get(i => i.INSTITUTEID == q.INSTITUTEID);
-                    q.SUPERVISOR = _supervisorDal.Get(s => s.SUPERVISORID == q.SUPERVISORID);
-                    q.UNIVERSITY = _universityDal.Get(u => u.UNIVERSITYID == q.UNIVERSITYID);
-                }
-
-                return new SuccessDataResult<List<Thesis>>(query);
+                var result = GetFiltered(model);
+                return new SuccessDataResult<List<Thesis>>(result);
             }
             catch (Exception ex)
             {
@@ -130,5 +91,44 @@
             throw new NotImplementedException();
         }
 
+        private List<Thesis> GetFiltered(ThesisModel model)
+        {
+            Dictionary<string, object> nonNullPropertiesWithValues = GetProperties.GetNonNullProperties(model);
+            List<Thesis> query = _thesisDal.GetAllOfModel();
+            for (int i = 0; i < nonNullPropertiesWithValues.Count; i++)
+            {
+                var key = nonNullPropertiesWithValues.ElementAt(i).Key;
+                object value = nonNullPropertiesWithValues.ElementAt(i).Value;
+                if (typeof(Thesis).GetProperty(key) != null)
+                {
+                    var propertyInfo = typeof(Thesis).GetProperty(key)!;
+
+                    if (!(key.Contains("ID") || key.Contains("YEAR")))
+                    {
+                        string stringValue = value.ToString()!;
+                        query = query.Where(t => propertyInfo.GetValue(t)!.ToString()!.Contains(stringValue)).ToList();
+                    }
+                    else
+                    {
+                        int intValue = Convert.ToInt32(value);
+                        query = query.Where(t => (int)propertyInfo!.GetValue(t)! == intValue).ToList();
+                    }
+                }
+                else
+                {
+                    if (key == "AUTHORNAME")
+                    {
+                        query = query.Where(t => (t.AUTHOR.AUTHORNAME + t.AUTHOR.LASTNAME).Replace(" ","").
+                        Contains(value.ToString()!.Replace(" ", ""))).ToList();
+                    }
+                    else
+                    {
+                        query = query.Where(t => (t.SUPERVISOR.FIRSTNAME + t.SUPERVISOR.LASTNAME).Replace(" ", "").
+                        Contains(value.ToString()!.Replace(" ", ""))).ToList();
+                    }
+                }
+            }
+            return query;
+        }
     }
 }

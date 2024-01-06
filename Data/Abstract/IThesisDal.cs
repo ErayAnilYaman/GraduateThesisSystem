@@ -13,6 +13,8 @@ namespace Data.Abstract
     #endregion
     public interface IThesisDal : IEntityRepositoryBase<Thesis>
     {
+        List<Thesis> GetAllOfModel();
+        List<Thesis> GetAllOfModelByNumber(int number);
 
     }
 }

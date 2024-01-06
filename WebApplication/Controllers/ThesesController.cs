@@ -18,8 +18,6 @@ namespace WebApplication.Controllers
         private readonly IThesisService _thesisService;
         private readonly IInstituteService _instituteService;
         private readonly IUniversityService _universityService;
-
-
         private ThesesContext db = new ThesesContext();
 
         public ThesesController(IThesisService thesisService , IInstituteService instituteService , IUniversityService universityService)
@@ -36,24 +34,6 @@ namespace WebApplication.Controllers
                 var result = _thesisService.GetAll();
                 if (result.IsSuccess)
                 {
-                    return View(result.Data.ToPagedList(pageNumber: 1, pageSize: 10));
-                }
-                return NotFound();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-        }
-        [HttpGet]
-        public IActionResult Detail(int thesisNumber)
-        {
-            try
-            {
-                var result = _thesisService.GetByNumber(thesisNumber);
-                if (result.IsSuccess)
-                {
                     return View(result.Data);
                 }
                 return NotFound();
@@ -63,6 +43,41 @@ namespace WebApplication.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet]
+        public PartialViewResult GetByNumber()
+        {
+            try
+            {
+                return PartialView();
+            }
+            catch (Exception ex)
+            {
+                return PartialView(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult GetByNumber(string thesisNumber)
+        {
+            try
+            {
+                List<Thesis> theses = new List<Thesis>();
+                var result = _thesisService.GetByNumber(Convert.ToInt32(thesisNumber));
+                theses.Add(result.Data);
+                if (result.IsSuccess)
+                {
+                    return View("Index",theses);
+                }
+                return View("Index", null);
+
+            }
+            catch (Exception ex)
+            {
+                return PartialView(ex.Message);
+            }
+        }
+
+
         [HttpGet]
         public IActionResult Filter()
         {
@@ -95,31 +110,10 @@ namespace WebApplication.Controllers
             var result = _thesisService.GetFilter(thesisModel);
             if (result.IsSuccess)
             {
-                return View("FilteredResult",result.Data);
-
+                return View("Index",result.Data);
             }
             return View();
         }
-        [HttpGet]
-        [ValidateAntiForgeryToken]
-        public IActionResult FilteredResult(List<Thesis> theses)
-        {
-            try
-            {
-                if (theses != null)
-                {
-                    return View(theses);
-                }
-                return View();
-
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpGet]
         public JsonResult GetData(int number)
         {
@@ -128,9 +122,9 @@ namespace WebApplication.Controllers
                 var result = _thesisService.GetByNumber(number);
                 if (result.Data != null)
                 {
-                    return Json(new { success = true , message = result.Message });
+                    return Json(new { success = result.IsSuccess, message = result.Message , thesis = result.Data });
                 }
-                return Json(new { success = false, message = result.Message });
+                return Json(new { success = result.IsSuccess, message = result.Message });
             }
             catch (Exception ex)
             {
