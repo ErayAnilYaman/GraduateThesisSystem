@@ -76,8 +76,6 @@ namespace WebApplication.Controllers
                 return PartialView(ex.Message);
             }
         }
-
-
         [HttpGet]
         public IActionResult Filter()
         {
@@ -101,7 +99,6 @@ namespace WebApplication.Controllers
             ViewBag.Universities = universities;
             ViewBag.Institutes = institutes;
             return View(thesisModel);
-
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

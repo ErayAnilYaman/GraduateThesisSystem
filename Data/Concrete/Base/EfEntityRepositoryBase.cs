@@ -54,7 +54,6 @@ namespace Data.Concrete.Base
                 return (filter == null) ? db.Set<TEntity>().ToList(): db.Set<TEntity>().Where(filter).ToList();
             }
         }
-
         public void Update(TEntity entity)
         {
             using (var db = new ThesesContext())

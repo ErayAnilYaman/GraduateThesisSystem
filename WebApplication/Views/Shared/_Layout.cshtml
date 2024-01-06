@@ -22,10 +22,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/theses/filter">Detail Filter</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/login">User Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/login">Admin Login</a>
+                    </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0" action="@Url.Action("GetByNumber", "Theses")" method="post">
-                    <input name="thesisNumber" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <form class="form-inline my-2 my-lg-0 ml-auto" action="@Url.Action("GetByNumber", "Theses")" method="post">
+                    <div class="form-group">
+                        <input name="thesisNumber" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </div>
                 </form>
             </div>
         </nav>
@@ -36,7 +46,6 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - WebApplication - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
