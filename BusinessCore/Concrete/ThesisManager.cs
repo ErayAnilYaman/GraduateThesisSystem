@@ -55,6 +55,16 @@
             }
         }
 
+        public IDataResult<List<Thesis>> GetAllByUsername(string username)
+        {
+            var result = _thesisDal.GetAllByUsername(username);
+            if (result != null)
+            {
+                return new SuccessDataResult<List<Thesis>>(result,Messages.Listed);
+            }
+            return new ErrorDataResult<List<Thesis>>(ThesisMessages.ThesisFound);
+        }
+
         public IDataResult<Thesis> GetByNumber(int number)
         {
             try

@@ -17,6 +17,7 @@ namespace BusinessCore.Abstract
         IDataResult<List<Thesis>> GetAll();
         IDataResult<Thesis> GetByNumber(int number);
         IDataResult<List<Thesis>> GetFilter(ThesisModel model);
+        IDataResult<List<Thesis>> GetAllByUsername(string username);
         IResult Add(Thesis thesis);
         IResult Update(Thesis thesis);
         IResult Delete(int id);

@@ -24,17 +24,21 @@ namespace BusinessCore.Concrete
         }
         public IResult Add(Institute institute)
         {
-            throw new NotImplementedException();
+            _instituteDal.Add(institute);
+            return new SuccessResult("Enstitu Eklendi!!!");
         }
 
         public IResult DeleteById(int id)
         {
-            throw new NotImplementedException();
+            var instituteToDelete = _instituteDal.Get(i => i.INSTITUTEID == id);
+            _instituteDal.Delete(instituteToDelete);
+            return new SuccessResult("Enstitu Silindi!!!");
         }
 
         public IDataResult<Institute> GetById(int id)
         {
-            throw new NotImplementedException();
+            var institute = _instituteDal.Get(i => i.INSTITUTEID == id);
+            return new SuccessDataResult<Institute>(institute);
         }
 
         public IDataResult<List<Institute>> List()
@@ -51,7 +55,8 @@ namespace BusinessCore.Concrete
 
         public IResult Update(Institute institute)
         {
-            throw new NotImplementedException();
+            _instituteDal.Update(institute);
+            return new SuccessResult("Enstitu Guncellendi!!!");
         }
     }
 }

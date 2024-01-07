@@ -15,6 +15,6 @@ namespace Data.Abstract
     {
         List<Thesis> GetAllOfModel();
         List<Thesis> GetAllOfModelByNumber(int number);
-
+        List<Thesis> GetAllByUsername(string username);
     }
 }

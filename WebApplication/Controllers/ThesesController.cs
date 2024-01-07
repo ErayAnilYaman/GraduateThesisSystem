@@ -43,19 +43,7 @@ namespace WebApplication.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet]
-        public PartialViewResult GetByNumber()
-        {
-            try
-            {
-                return PartialView();
-            }
-            catch (Exception ex)
-            {
-                return PartialView(ex.Message);
-            }
-        }
-
+        
         [HttpPost]
         public IActionResult GetByNumber(string thesisNumber)
         {
